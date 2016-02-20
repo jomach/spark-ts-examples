@@ -3,6 +3,9 @@ package com.cloudera.tsexamples
 import com.cloudera.sparkts.models.ARIMA
 import breeze.linalg.DenseVector
 
+import java.util.Calendar
+import java.text.SimpleDateFormat
+
 /**
  * An example showcasing the use of ARIMA in a non-distributed context.
  */
@@ -15,5 +18,20 @@ object SingleSeriesARIMA {
     println("coefficients: " + arimaModel.coefficients)
     val forecast = arimaModel.forecast(ts, 20)
     println("forecast of next 20 observations: " + forecast.toArray.mkString(","))
+  }
+}
+
+
+
+
+implicit val caseInsensitiveOrdering = new Ordering[String] {
+  override def compare(a: String, b: String) = {
+  	val parts_a = a.split(";")
+  	
+  	val simpleDateParser = new SimpleDateFormat("yyyy;MM;dd;HH;mm")
+    val calen_today = Calendar.getInstance()
+    val dayformated = this.year.toString+"-"+this.month.toString+"-"+this.day.toString
+    calen_today.setTime(simpleDateParser.parse(dayformated))
+
   }
 }
